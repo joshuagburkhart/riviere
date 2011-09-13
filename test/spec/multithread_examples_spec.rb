@@ -11,7 +11,7 @@ describe SimpleExample, do
 end
 
 describe TwoThreadExample do
-	it "adds two arrays" do
+	it "can add with two threads" do
 		example=TwoThreadExample.new
 		example.addSequence1 "12345"
 		example.addSequence2 "65432"
