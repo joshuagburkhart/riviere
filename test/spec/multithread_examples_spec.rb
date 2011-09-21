@@ -1,6 +1,6 @@
 require '../../source/rb/multithread_examples'
 
-describe SimpleExample, do
+describe SimpleExample do
 	it "returns an array with correct value" do
 		example=SimpleExample.new
 		10.times do
