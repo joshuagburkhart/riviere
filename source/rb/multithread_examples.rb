@@ -1,7 +1,7 @@
+require 'rubygems'
+require 'bio'
+
 class SimpleExample
-	def initialize
-		#nothing here	
-	end	
 	def addSequence(seq)
 		@seq_list=Array.new if @seq_list.nil?
 		@seq_list << seq
@@ -36,5 +36,18 @@ class TwoThreadExample
 			@seq3[i].nil? ? @seq3[i]=local_val : @seq3[i]+=local_val
 			end		
 		end
+	end
+end
+
+class BioUser
+	attr_accessor :seq1
+	def seq1comp
+		Bio::Sequence::NA.new(@seq1).complement
+	end
+	def align1(sq1,sq2)
+		@a=Bio::Alignment.new([Bio::Sequence::NA.new(sq1),Bio::Sequence::NA.new(sq2)])
+	end
+	def align1consensus
+		@a.consensus
 	end
 end

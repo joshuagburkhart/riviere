@@ -18,3 +18,13 @@ describe TwoThreadExample do
 		example.sum.should=="77777"
 	end
 end
+
+describe BioUser do
+	it "can use the bio gem" do
+		example=BioUser.new
+		example.seq1= "acgttt"
+		example.seq1comp.should=="aaacgt"
+		example.align1("attt","agct")
+		example.align1consensus.should=="a??t"
+	end
+end
