@@ -20,11 +20,15 @@ describe TwoThreadExample do
 end
 
 describe BioUser do
+	example=BioUser.new
 	it "can use the bio gem" do
-		example=BioUser.new
 		example.seq1= "acgttt"
 		example.seq1comp.should=="aaacgt"
 		example.align1("attt","agct")
 		example.align1consensus.should=="a??t"
+	end
+	it "can align two sequences" do
+		example.align1("acgtaaatgcc","aaaacgttaatgcc")
+		example.align1needw.should=="an aligned sequence"
 	end
 end

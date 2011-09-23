@@ -41,6 +41,46 @@ end
 
 class BioUser
 	attr_accessor :seq1
+	def needW(seq1, seq2)
+		s=Hash[
+			"A" => Hash["A" => 1, "T" => 0, "C" => 0, "G" => 0],
+			"T" => Hash["A" => 0, "T" => 1, "C" => 0, "G" => 0],
+			"C" => Hash["A" => 0, "T" => 0, "C" => 1, "G" => 0],
+			"G" => Hash["A" => 0, "T" => 0, "C" => 0, "G" => 1]
+		]
+		w=-1
+		m=seq1.length
+		n=seq2.length
+		
+		#create matrix
+		matrix=Array.new(m+1) do
+			Array.new(n+1)
+		end
+
+		#fill matrix
+		(m+1).times do |i|
+			matrix[i][0]=(i*w)
+		end
+		(n+1).times do |j|
+			matrix[0][j]=(j*w)
+		end
+		(1..m).each do |i|
+			(1..n).each do |j|
+				res1=seq1.split('')[i-1]
+				res2=seq2.split('')[j-1]
+				val=s[res1.upcase][res2.upcase]
+				matrix[i][j]=val
+			end
+		end
+
+		#traceback
+
+		
+
+
+		
+		matrix.size.times do |i| puts matrix[i].to_s end
+	end
 	def seq1comp
 		Bio::Sequence::NA.new(@seq1).complement
 	end
@@ -49,5 +89,8 @@ class BioUser
 	end
 	def align1consensus
 		@a.consensus
+	end
+	def align1needw
+		needW(@a[0],@a[1])
 	end
 end
