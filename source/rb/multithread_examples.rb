@@ -42,12 +42,12 @@ end
 class BioUser
 	attr_accessor :seq1
 	def needW(seq1, seq2)
-		s=Hash[
-			"A" => Hash["A" => 1, "T" => 0, "C" => 0, "G" => 0],
-			"T" => Hash["A" => 0, "T" => 1, "C" => 0, "G" => 0],
-			"C" => Hash["A" => 0, "T" => 0, "C" => 1, "G" => 0],
-			"G" => Hash["A" => 0, "T" => 0, "C" => 0, "G" => 1]
-		]
+		s={
+			"A" => {"A" => 1, "T" => 0, "C" => 0, "G" => 0},
+			"T" => {"A" => 0, "T" => 1, "C" => 0, "G" => 0},
+			"C" => {"A" => 0, "T" => 0, "C" => 1, "G" => 0},
+			"G" => {"A" => 0, "T" => 0, "C" => 0, "G" => 1}
+		}
 		w=-1
 		m=seq1.length
 		n=seq2.length
@@ -68,8 +68,10 @@ class BioUser
 			(1..n).each do |j|
 				res1=seq1.split('')[i-1]
 				res2=seq2.split('')[j-1]
-				val=s[res1.upcase][res2.upcase]
-				matrix[i][j]=val
+				score=s[res1.upcase][res2.upcase]
+				neighbors=[matrix[i][j-1],matrix[i-1][j],matrix[i-1][j-1]]
+				max=neighbors.max
+				matrix[i][j]=score+max
 			end
 		end
 
