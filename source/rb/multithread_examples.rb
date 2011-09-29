@@ -48,7 +48,7 @@ class BioUser
 			"C" => {"A" => 0, "T" => 0, "C" => 1, "G" => 0},
 			"G" => {"A" => 0, "T" => 0, "C" => 0, "G" => 1}
 		}
-		w=-1
+		w=0
 		m=seq1.length
 		n=seq2.length
 		
@@ -69,9 +69,8 @@ class BioUser
 				res1=seq1.split('')[i-1]
 				res2=seq2.split('')[j-1]
 				score=s[res1.upcase][res2.upcase]
-				neighbors=[matrix[i][j-1],matrix[i-1][j],matrix[i-1][j-1]]
-				max=neighbors.max
-				matrix[i][j]=score+max
+				neighbors=[matrix[i][j-1]+score,matrix[i-1][j]+w,matrix[i-1][j-1]+w]
+				matrix[i][j]=neighbors.max
 			end
 		end
 
