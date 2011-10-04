@@ -41,6 +41,26 @@ end
 
 class BioUser
 	attr_accessor :seq1
+	def printPrettyMatrix(seq1,seq2,matrix)
+		puts
+		print "     "
+		seq2.size.times do |x|
+			print " #{seq2.split('')[x]} "
+		end
+		puts
+		print "  " 
+		matrix[0].size.times do |y|
+			print "[#{matrix[0][y]}]"
+		end
+		puts
+		(1..matrix.size-1).each do |i| print "#{seq1.split('')[i-1]} "
+			matrix[i].size.times do |j|
+				print "[#{matrix[i][j]}]"
+			end
+		puts
+		end	
+		puts
+	end
 	def needW(seq1, seq2)
 		s={
 			"A" => {"A" => 1, "T" => 0, "C" => 0, "G" => 0},
@@ -51,7 +71,7 @@ class BioUser
 		w=0
 		m=seq1.length
 		n=seq2.length
-		
+
 		#create matrix
 		matrix=Array.new(m+1) do
 			Array.new(n+1)
@@ -69,18 +89,38 @@ class BioUser
 				res1=seq1.split('')[i-1]
 				res2=seq2.split('')[j-1]
 				score=s[res1.upcase][res2.upcase]
-				neighbors=[matrix[i][j-1]+score,matrix[i-1][j]+w,matrix[i-1][j-1]+w]
+				neighbors=[matrix[i][j-1]+w,matrix[i-1][j]+w,matrix[i-1][j-1]+score]
 				matrix[i][j]=neighbors.max
 			end
 		end
 
 		#traceback
-
+		x,y=m-1,n-1
+		reseq1=[seq1.split('')[x]]
+		reseq2=[seq2.split('')[y]]
+		while x>0 && y>0 do
+			if matrix[x][y-1]>matrix[x-1][y-1] && matrix[x][y-1]>matrix[x-1][y] 
+				y=y-1
+				reseq1 << "-"
+				reseq2 << seq2.split('')[y]
+			elsif	matrix[x-1][y]>matrix[x-1][y-1] && matrix[x-1][y]>matrix[x][y-1] 
+				x=x-1
+				reseq1 << seq1.split('')[x]
+				reseq2 << "-"
+			else 
+				x=x-1
+				y=y-1
+				reseq1 << seq1.split('')[x]
+				reseq2 << seq2.split('')[y]
+			end
+		end
 		
 
+		printPrettyMatrix(seq1,seq2,matrix)
+		puts reseq1.to_s.reverse
+		puts reseq2.to_s.reverse
 
-		
-		matrix.size.times do |i| puts matrix[i].to_s end
+		"#{reseq1.to_s.reverse}\n#{reseq2.to_s.reverse}"
 	end
 	def seq1comp
 		Bio::Sequence::NA.new(@seq1).complement

@@ -29,6 +29,6 @@ describe BioUser do
 	end
 	it "can align two sequences" do
 		example.align1("acgtaaatgcc","aaaacgttaatgcc")
-		example.align1needw.should=="an aligned sequence"
+		example.align1needw.should=="a---cgt-aaatgcc\naaaacgttaa-tgcc"
 	end
 end
