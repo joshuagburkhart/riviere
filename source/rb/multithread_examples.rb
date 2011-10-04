@@ -117,10 +117,17 @@ class BioUser
 		
 
 		printPrettyMatrix(seq1,seq2,matrix)
-		puts reseq1.to_s.reverse
-		puts reseq2.to_s.reverse
+		puts printArray(reseq1).reverse
+		puts printArray(reseq2).reverse
 
-		"#{reseq1.to_s.reverse}\n#{reseq2.to_s.reverse}"
+		"#{printArray(reseq1).reverse}\n#{printArray(reseq2).reverse}"
+	end
+	def printArray(a)
+		if RUBY_VERSION < "1.9"
+			a.to_s
+		else
+			a.join.to_s
+		end
 	end
 	def seq1comp
 		Bio::Sequence::NA.new(@seq1).complement
