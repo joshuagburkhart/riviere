@@ -1,0 +1,52 @@
+<h1>Task#index</h1>
+<p>Find me in app/views/task/index.html.erb</p>
+<h1>Listing Tasks</h1>
+<table>
+	<tr>
+		<th>id</th>
+		<th>base1</th>
+		<th>base2</th>
+		<th>align</th>
+	</tr>
+	
+	<% @tasks.each do |task| %>
+		
+	<tr>
+		<td><%= task.id %></td>
+		<td><%= task.base_sequence1 %></td>
+		<td><%= task.base_sequence2 %></td>
+		<td><%= task.alignment_sequence.nil? %></td>
+	</tr>
+
+	<% end %>
+
+</table>
+
+<%= form_tag({:controller => "task", :action => "create"}, :method => "get") do %>
+	<%= label_tag(:seq, "search for:") %>
+	<%= text_field_tag(:seq) %>
+	<%= submit_tag("submit") %>
+<% end %>
+
+<br/>
+
+
+<h1>A simple expression</h1>
+<table>
+	<tr>
+		<% @table["headings"].each do |head| %>
+			<td>
+				<b><%= head %></b>
+			</td>
+		<% end %>
+	</tr>
+	<% @table["body"].each do |row| %>
+		<tr>
+			<% row.each do |col| %>
+				<td>
+					<%= col %>
+				</td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
