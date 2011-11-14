@@ -1,17 +1,17 @@
 class TaskController < ApplicationController
-  def index
+  def history
 	@tasks = Task.all
   end
   def create
 	  s1,s2=params[:seq1],params[:seq2]
-	  if !s1.nil? && !s1=="" && !s2.nil? && !s2==""
+	  if !s1.nil? && s1!="" && !s2.nil? && s2!=""
 	  	@tsk = Task.new
 	  	@tsk.base_sequence1 = s1
 	  	@tsk.base_sequence2 = s2
 	  	@tsk.alignment_sequence = needW(s1,s2)
 	  	@tsk.save
 	  end
-	  redirect_to :action => "index"
+	  redirect_to :action => "history"
   end
   def needW(seq1, seq2)
 		s={

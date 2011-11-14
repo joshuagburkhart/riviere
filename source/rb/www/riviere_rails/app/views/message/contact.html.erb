@@ -1,0 +1,31 @@
+<head>
+	<title>Riviere</title>
+</head>
+<body>
+	<h1>Message#contact</h1>
+<div>
+	<a href="/index">Home</a>
+	<a href="/dashboard">Dashboard</a>
+	<a href="/join">Join the Strand</a>
+	<a href="/contact">Contact</a>
+	<a href="/about">About</a>
+</div>
+<div>
+	<%= form_tag({:controller => "message", :action => "create"}, :method => "get") do %>
+	<%= label_tag(:em, "Email:") %>
+	<%= text_field_tag(:em) %>
+	<br/>
+	<%= label_tag(:msg, "Message:") %>
+	<%= text_area_tag(:msg) %>
+	<br/>
+	<%= hidden_field_tag(:uid, value=@uid) %>
+	<br/>
+	<%= submit_tag("Submit") %>
+	<% end %>
+</div>
+<div>
+	&copy; 2011 Riviere
+	<br/>
+	<a href="privacy">Privacy</a>
+</div>
+</body>

@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  lname: MyString
+  fname: MyString
+  phone_1: MyString
+  phone2: MyString
+  email: MyString
+  pswd: MyString
+  organization: MyString
+  org_address: MyString
+  org_pcode: MyString
+
+two:
+  lname: MyString
+  fname: MyString
+  phone_1: MyString
+  phone2: MyString
+  email: MyString
+  pswd: MyString
+  organization: MyString
+  org_address: MyString
+  org_pcode: MyString

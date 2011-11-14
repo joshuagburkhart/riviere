@@ -11,12 +11,32 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111104003952) do
+ActiveRecord::Schema.define(:version => 20111111025056) do
+
+  create_table "messages", :force => true do |t|
+    t.string   "email"
+    t.text     "msg"
+    t.string   "uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "tasks", :force => true do |t|
     t.string   "alignment_sequence"
     t.string   "base_sequence1"
     t.string   "base_sequence2"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "lname"
+    t.string   "fname"
+    t.string   "email"
+    t.string   "pswd"
+    t.string   "organization"
+    t.string   "org_address"
+    t.string   "org_pcode"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

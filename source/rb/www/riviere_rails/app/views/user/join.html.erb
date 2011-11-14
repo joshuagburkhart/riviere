@@ -1,0 +1,44 @@
+<head>
+	<title>Riviere</title>
+</head>
+<body>
+	<h1>User#join</h1>
+<div>
+	<a href="index">Home</a>
+	<a href="dashboard">Dashboard</a>
+	<a href="join">Join the Strand</a>
+	<a href="contact">Contact</a>
+	<a href="about">About</a>
+</div>
+<div>
+	<%= form_tag({:controller => "user", :action => "create"}, :method => "get") do %>
+	<%= label_tag(:ln, "Last Name:") %>
+	<%= text_field_tag(:ln) %>
+	<br/>
+	<%= label_tag(:fn, "First Name:") %>
+	<%= text_field_tag(:fn) %>
+	<br/>
+	<%= label_tag(:em, "Email:") %>
+	<%= text_field_tag(:em) %>
+	<br/>
+	<%= label_tag(:pd, "password:") %>
+	<%= password_field_tag(:pd) %>
+	<br/>
+	<%= label_tag(:og, "Organization:") %>
+	<%= text_field_tag(:og) %>
+	<br/>
+	<%= label_tag(:oa, "Organization Address:") %>
+	<%= text_field_tag(:oa) %>
+	<br/>
+	<%= label_tag(:op, "Organization Postal Code:") %>
+	<%= text_field_tag(:op) %>
+	<br/>
+	<%= submit_tag("Sign Me Up!") %>
+	<% end %>
+</div>
+<div>
+	&copy; 2011 Riviere
+	<br/>
+	<a href="privacy">Privacy</a>
+</div>
+</body>

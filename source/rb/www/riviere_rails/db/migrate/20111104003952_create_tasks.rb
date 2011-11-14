@@ -5,7 +5,8 @@ class CreateTasks < ActiveRecord::Migration
 	t.string :alignment_sequence
 	t.string :base_sequence1
 	t.string :base_sequence2
-      t.timestamps
+	t.string :uid
+      	t.timestamps
     end
   end
 end
