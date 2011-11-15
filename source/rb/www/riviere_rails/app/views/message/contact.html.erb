@@ -3,13 +3,9 @@
 </head>
 <body>
 	<h1>Message#contact</h1>
-<div>
-	<a href="/index">Home</a>
-	<a href="/dashboard">Dashboard</a>
-	<a href="/join">Join the Strand</a>
-	<a href="/contact">Contact</a>
-	<a href="/about">About</a>
-</div>
+		<iframe src="/header.html" width="100%" height="30" scrolling="no" frameborder="0">
+			<p>Enable iframes to view the header.</p>
+		</iframe>
 <div>
 	<%= form_tag({:controller => "message", :action => "create"}, :method => "get") do %>
 	<%= label_tag(:em, "Email:") %>
@@ -23,9 +19,7 @@
 	<%= submit_tag("Submit") %>
 	<% end %>
 </div>
-<div>
-	&copy; 2011 Riviere
-	<br/>
-	<a href="privacy">Privacy</a>
-</div>
+		<iframe src="/footer.html" width="100%" height="30" scrolling="no" frameborder="0">
+			<p>Enable iframes to view the footer.</p>
+		</iframe>
 </body>

@@ -14,6 +14,6 @@ class UserController < ApplicationController
 		@usr.org_pcode = op
 	  	@usr.save
 	end
-	redirect_to :action => "join"
+	redirect_to "/index"
   end
 end

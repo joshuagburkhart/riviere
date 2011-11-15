@@ -14,6 +14,6 @@ class MessageController < ApplicationController
 		  end
 		  @msg.save
 	  end
-	  redirect_to :action => "contact"
+	  redirect_to "/index"
   end
 end
