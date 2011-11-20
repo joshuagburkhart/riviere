@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20111111025056) do
     t.string   "alignment_sequence"
     t.string   "base_sequence1"
     t.string   "base_sequence2"
+    t.string   "uid"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -37,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20111111025056) do
     t.string   "organization"
     t.string   "org_address"
     t.string   "org_pcode"
+    t.string   "activesess"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

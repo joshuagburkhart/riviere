@@ -1,11 +1,16 @@
 class TaskController < ApplicationController
   def history
-	@tasks = Task.all
+	@usr = UserController.findUser(session[:activesess])
+	session[:activesess] = @usr.activesess
+	@tasklist = Task.where("uid = ?", @usr.id.to_s)
   end
   def create
+	  @usr = UserController.findUser(session[:activesess])
+	  session[:activesess] = @usr.activesess
 	  s1,s2=params[:seq1],params[:seq2]
 	  if !s1.nil? && s1!="" && !s2.nil? && s2!=""
 	  	@tsk = Task.new
+		@tsk.uid = @usr.id.to_s
 	  	@tsk.base_sequence1 = s1
 	  	@tsk.base_sequence2 = s2
 	  	@tsk.alignment_sequence = needW(s1,s2)

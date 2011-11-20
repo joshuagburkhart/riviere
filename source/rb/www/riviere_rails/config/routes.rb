@@ -4,15 +4,21 @@ RiviereRails::Application.routes.draw do
 
   get "user/create"
 
+  get "user/join"
+
+  get "user/logout"
+
+  get "user/login"
+  
   get "message/contact"
 
   get "message/create"
 
-  get "user/join"
-
-  get "task/index"
+  get "task/history"
 
   get "task/create"
+
+  get "task/new"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -25,8 +31,13 @@ RiviereRails::Application.routes.draw do
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
   match 'dashboard' => 'task#history'
+  match 'newtask' => 'task#new'
   match 'join' => 'user#join'
   match 'contact' => 'message#contact'
+  match 'index' => 'user#index'
+  match 'logout' => 'user#logout'
+  match 'user/login' => 'user#login'
+  match 'user/create' => 'user#create'
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
@@ -66,7 +77,7 @@ RiviereRails::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'task#index'
+   root :to => 'user#index'
 
   # See how all your routes lay out with "rake routes"
 

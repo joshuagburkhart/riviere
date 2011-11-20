@@ -7,7 +7,7 @@
 			<p>Enable iframes to view the header.</p>
 		</iframe
 <div>
-	<%= form_tag({:controller => "user", :action => "create"}, :method => "get") do %>
+	<%= form_tag({:controller => "user", :action => "create"}, :method => "post") do %>
 	<%= label_tag(:ln, "Last Name:") %>
 	<%= text_field_tag(:ln) %>
 	<br/>

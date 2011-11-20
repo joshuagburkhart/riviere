@@ -1,0 +1,41 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<h1>Riviere Index</h1>
+		<iframe src="/header.html" width="100%" height="30" scrolling="no" frameborder="0">
+			<p>
+				Enable iframes to view the page header.
+			</p>
+		</iframe>
+		<h2>Welcome <%= @usr.fname %></h2>
+		<%if @usr.activesess.start_with?("g_")%>
+			<div>
+				<%= form_tag({:action => "login"}, :method => "post") do %>
+					<%= label_tag(:em, "Email:") %>
+					<%= text_field_tag(:em) %>
+					<br/>
+					<%= label_tag(:pd, "password:") %>
+					<%= password_field_tag(:pd) %>
+					<br/>
+					<%= submit_tag("Sign In") %>
+				<% end %>
+			</div>
+			<div>
+				<a href="join">Join the Strand!</a>
+			</div>
+		<%else%>
+			<div>
+				<a href="logout">Sign Out</a>
+			</div>
+		<%end%>
+		<p>
+			Riviere is a project to create a web-based sequence alignment tool using ruby opencl bindings.
+		</p> 
+		<iframe src="/footer.html" width="100%" height="30" scrolling="no" frameborder="0">
+			<p>
+				Enable iframes to view the page footer.
+			</p>
+		</iframe>
+	</body>
+</html>

@@ -8,13 +8,15 @@
 		</iframe>
 <div>
 	<%= form_tag({:controller => "message", :action => "create"}, :method => "get") do %>
-	<%= label_tag(:em, "Email:") %>
-	<%= text_field_tag(:em) %>
-	<br/>
+		<%if @usr.email.nil? %>
+			<%= label_tag(:em, "Email:") %>
+			<%= text_field_tag(:em) %>
+			<br/>
+		<%else%>
+			<%= hidden_field_tag(:em, @usr.email) %>
+		<%end%>
 	<%= label_tag(:msg, "Message:") %>
 	<%= text_area_tag(:msg) %>
-	<br/>
-	<%= hidden_field_tag(:uid, value=@uid) %>
 	<br/>
 	<%= submit_tag("Submit") %>
 	<% end %>

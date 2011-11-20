@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :organization
       t.string :org_address
       t.string :org_pcode
+      t.string :activesess
       t.timestamps
     end
   end
