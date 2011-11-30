@@ -29,7 +29,6 @@ class UserController < ApplicationController
   end
   def UserController.findUser(s)
 	@sid = s
-	puts "@sid is "+@sid
 	if @sid.nil? || !User.where("activesess = ?", @sid).exists? #|| User.where("activesess = ?", @sid).first.updated_at.is-older-than-30-minutes
 		grid = "g_"+UserController.random_session_id()
 		@usr = User.new
