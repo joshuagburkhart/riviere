@@ -6,8 +6,8 @@
 		<iframe src="/header.html" width="100%" height="30" scrolling="no" frameborder="0">
 			<p>Enable iframes to view the header.</p>
 		</iframe>
-<h2>New Task</h2>
 <hr/>
+<h2>New Task</h2>
 <div>
 <%= form_tag({:controller => "task", :action => "create"}, :method => "get") do %>
 	<%= label_tag(:seq1, "Sequence 1:") %>
@@ -18,6 +18,16 @@
 	<br/>
 	<%= submit_tag("Align") %>
 <% end %>
+</div>
+<hr/>
+<h2>Search</h2>
+<div>
+	<%= form_tag({:controller => "task", :action => "search"}, :method => "get") do %>
+		<%= label_tag(:org, "Organism:") %>
+		<%= text_field_tag(:org) %>
+		<br/>
+		<%= submit_tag("Search") %>
+	<% end %>
 </div>
 		<iframe src="/footer.html" width="100%" height="30" scrolling="no" frameborder="0">
 			<p>Enable iframes to view the footer.</p>

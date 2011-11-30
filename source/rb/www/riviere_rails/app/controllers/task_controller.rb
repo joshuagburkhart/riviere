@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'mechanize'
+
 class TaskController < ApplicationController
   def history
 	@usr = UserController.findUser(session[:activesess])
@@ -17,6 +20,38 @@ class TaskController < ApplicationController
 	  	@tsk.save
 	  end
 	  redirect_to :action => "history"
+  end
+  def search
+	  org=params[:org]
+	  if !org.nil? && org!=""
+		agent = WWW::Mechanize.new
+		agent.user_agent_alias = 'Mac Safari'
+	  	base="http://eutils.ncbi.nlm.nih.gov/entrez/eutils"
+		db="nucleotide"
+		term=org+"[orgn]"
+		usehistory="y"
+		search_url=base+"/esearch.fcgi?db="+db+"&term="+term+"&usehistory="+usehistory
+		search_page = agent.get(search_url)
+
+		search_result = Hpricot(search_page)
+
+#get values from search_result (http://muharem.wordpress.com/2007/09/04/scrape-the-web-with-ruby/)
+
+		query_key="1"
+		web_env="NCID_1_309414617_130.14.18.47_9001_1322614846_1417075812"
+		id="14193388"
+		query_key="1"
+		strand="1"
+		retmode="xml"
+
+		fetch_url=base+"/efetch.fcgi?db="+db+"&id="+id+"&query_key="+query_key+"&WebEnv="+web_env+"strand="+strand+"&retmode="+retmode
+
+		fetch_page = agent.get(fetch_url)
+
+		fetch_result = Hpricot(fetch_page)
+
+#get locus values & sequence values from fetch result (http://muharem.wordpress.com/2007/09/04/scrape-the-web-with-ruby/)
+	  end
   end
   def needW(seq1, seq2)
 		s={
