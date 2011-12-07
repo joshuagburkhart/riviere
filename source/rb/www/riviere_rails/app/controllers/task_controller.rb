@@ -1,11 +1,21 @@
 require 'rubygems'
-require 'mechanize'
 
 class TaskController < ApplicationController
   def history
 	@usr = UserController.findUser(session[:activesess])
 	session[:activesess] = @usr.activesess
 	@tasklist = Task.where("uid = ?", @usr.id.to_s)
+  end
+  def new
+	  @seq1="hello seq1"
+	  @seq2="hello seq2"
+	  s1,s2=params[:seq1],params[:seq2]
+	  if !s1.nil? && s1!=""
+	  	@seq1=params[:seq1]
+	  end	  
+	  if !s2.nil? && s2!=""
+	  	@seq2=params[:seq2]
+	  end
   end
   def create
 	  @usr = UserController.findUser(session[:activesess])
@@ -22,10 +32,27 @@ class TaskController < ApplicationController
 	  redirect_to :action => "history"
   end
   def search
+	  sequence_one="ACCTTGG"
+	  sequence_two="ACTTGG"
+	  redirect_to "/newtask?seq1=#{sequence_one}&seq2=#{sequence_two}"
+  end
+  def search_experimental
 	  org=params[:org]
 	  if !org.nil? && org!=""
-		agent = WWW::Mechanize.new
+		agent = Mechanize.new
 		agent.user_agent_alias = 'Mac Safari'
+
+		#submit esearch request to ncbi
+		#-http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nucleotide&term=Carsonella[orgn]&usehistory=y--
+		#parse output
+		#display organism translation with links to ids
+		#submit efetch request to ncbi
+		#--http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&id=14193388&rettype=fasta&retmode=xml--
+		#parse output
+		#display genes with links (with link for full genome)
+		#--http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&query_key=1&WebEnv=NCID_1_330129089_130.14.22.101_9001_1323227884_950078949&rettype=fasta&retmode=xml--
+		#load sequence into task
+
 	  	base="http://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 		db="nucleotide"
 		term=org+"[orgn]"

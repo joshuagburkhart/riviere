@@ -11,10 +11,10 @@
 <div>
 <%= form_tag({:controller => "task", :action => "create"}, :method => "get") do %>
 	<%= label_tag(:seq1, "Sequence 1:") %>
-	<%= text_field_tag(:seq1) %>
+	<%= text_field_tag(:seq1, @seq1) %>
 	<br/>
 	<%= label_tag(:seq2, "Sequence 2:") %>
-	<%= text_field_tag(:seq2) %>
+	<%= text_field_tag(:seq2, @seq2) %>
 	<br/>
 	<%= submit_tag("Align") %>
 <% end %>
