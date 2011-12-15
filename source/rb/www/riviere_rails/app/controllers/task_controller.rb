@@ -7,15 +7,23 @@ class TaskController < ApplicationController
 	@tasklist = Task.where("uid = ?", @usr.id.to_s)
   end
   def new
-	  @seq1="hello seq1"
-	  @seq2="hello seq2"
-	  s1,s2=params[:seq1],params[:seq2]
-	  if !s1.nil? && s1!=""
-	  	@seq1=params[:seq1]
-	  end	  
-	  if !s2.nil? && s2!=""
-	  	@seq2=params[:seq2]
+	  get_seq=params[:getseq]
+	  sess_seq1=session[:sessseq1]
+	  sess_seq2=session[:sessseq2]
+	  if !sess_seq1.nil? && sess_seq1!=""
+		@seq1=sess_seq1
+	  else
+		@seq1="Sequence X"
 	  end
+	  if !sess_seq2.nil? && sess_seq2!=""
+		@seq2=sess_seq2
+	  else
+		@seq2="Sequence Y"
+	  end 
+	  if !get_seq.nil? && get_seq!=""
+		session[:sessseq2],@seq2=@seq1,@seq1
+	  	session[:sessseq1],@seq1=params[:getseq],params[:getseq]
+	  end	  
   end
   def create
 	  @usr = UserController.findUser(session[:activesess])
@@ -32,9 +40,14 @@ class TaskController < ApplicationController
 	  redirect_to :action => "history"
   end
   def search
-	  sequence_one="ACCTTGG"
-	  sequence_two="ACTTGG"
-	  redirect_to "/newtask?seq1=#{sequence_one}&seq2=#{sequence_two}"
+	  org=params[:org]
+	  rnum=rand(8)
+	  if !org.nil? && org!=""
+	  	newseq=org+rnum.to_s
+	  else
+		newseq=rnum
+	  end
+	  redirect_to "/newtask?getseq=#{newseq}"
   end
   def search_experimental
 	  org=params[:org]
@@ -42,43 +55,65 @@ class TaskController < ApplicationController
 		agent = Mechanize.new
 		agent.user_agent_alias = 'Mac Safari'
 
-		#submit esearch request to ncbi
-		#-http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nucleotide&term=Carsonella[orgn]&usehistory=y--
-		#parse output
-		#display organism translation with links to ids
-		#submit efetch request to ncbi
-		#--http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&id=14193388&rettype=fasta&retmode=xml--
-		#parse output
-		#display genes with links (with link for full genome)
-		#--http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&query_key=1&WebEnv=NCID_1_330129089_130.14.22.101_9001_1323227884_950078949&rettype=fasta&retmode=xml--
-		#load sequence into task
-
-	  	base="http://eutils.ncbi.nlm.nih.gov/entrez/eutils"
+		#build request with organism name (from user input)
+		base="http://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 		db="nucleotide"
 		term=org+"[orgn]"
 		usehistory="y"
 		search_url=base+"/esearch.fcgi?db="+db+"&term="+term+"&usehistory="+usehistory
+
+		#submit esearch request to ncbi
+		#-http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nucleotide&term=Carsonella[orgn]&usehistory=y--
 		search_page = agent.get(search_url)
 
-		search_result = Hpricot(search_page)
+		#parse output
+		ref_name=search_page.content.split("<Term>")[1].split("</Term>")[0]
 
-#get values from search_result (http://muharem.wordpress.com/2007/09/04/scrape-the-web-with-ruby/)
+		key=search_page.content.split("<QueryKey>")[1].split("</QueryKey>")[0]
 
-		query_key="1"
-		web_env="NCID_1_309414617_130.14.18.47_9001_1322614846_1417075812"
-		id="14193388"
-		query_key="1"
-		strand="1"
-		retmode="xml"
+		env=search_page.content.split("<WebEnv>")[1].split("</WebEnv>")[0]
 
-		fetch_url=base+"/efetch.fcgi?db="+db+"&id="+id+"&query_key="+query_key+"&WebEnv="+web_env+"strand="+strand+"&retmode="+retmode
+		tmp_array=search_page.content.split("<Id>")
+		tmp_array.shift() #clear leading garbage
+		tmp_array.each_index do |i|
+			id_array[i]=id_array[i].split(<"</Id>")[0].to_s
+		end
+		id_array=tmp_array
 
-		fetch_page = agent.get(fetch_url)
-
-		fetch_result = Hpricot(fetch_page)
-
-#get locus values & sequence values from fetch result (http://muharem.wordpress.com/2007/09/04/scrape-the-web-with-ruby/)
+		#display organism translation with links to ids
+		@name=ref_name
+		@query_key=key
+		@web_env=env
+		@ids=id_array
 	  end
+  end
+  def fetch_experimental
+  	#build request with id (replace with actual values)
+	#web_env=search_result.parseOut(WebEnv)
+	query_key=params[:query_key]
+	web_env=params[:web_env]
+	id=params[:id]
+	strand="1"
+	retmode="xml"
+
+	if id=="complete_genome"
+		fetch_url=base+"...whatever"
+	else
+		fetch_url=base+"/efetch.fcgi?db="+db+"&id="+id+"&query_key="+query_key+"&WebEnv="+web_env+"strand="+strand+"&retmode="+retmode
+	end
+
+	#submit efetch request to ncbi
+	#--http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&id=14193388&rettype=fasta&retmode=xml--
+	fetch_page = agent.get(fetch_url)
+		
+	#parse output
+	#newseq=fetch_page.getTheSequence()
+
+	#load sequence into task
+	newseq=#the sequence to be added
+	redirect_to "/newtask?getseq=#{newseq}"
+
+	#get locus values & sequence values from fetch result (http://muharem.wordpress.com/2007/09/04/scrape-the-web-with-ruby/)
   end
   def needW(seq1, seq2)
 		s={
