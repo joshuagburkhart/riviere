@@ -68,11 +68,8 @@ class TaskController < ApplicationController
 
 		#parse output
 		ref_name=search_page.content.split("<Term>")[1].split("</Term>")[0]
-
 		key=search_page.content.split("<QueryKey>")[1].split("</QueryKey>")[0]
-
 		env=search_page.content.split("<WebEnv>")[1].split("</WebEnv>")[0]
-
 		tmp_array=search_page.content.split("<Id>")
 		tmp_array.shift() #clear leading garbage
 		tmp_array.each_index do |i|
@@ -88,30 +85,42 @@ class TaskController < ApplicationController
 	  end
   end
   def fetch_experimental
-  	#build request with id (replace with actual values)
-	#web_env=search_result.parseOut(WebEnv)
+	agent = Mechanize.new
+	agent.user_agent_alias = 'Mac Safari'
+  	base="http://eutils.ncbi.nlm.nih.gov/entrez/eutils"
+	db="nucleotide"
 	query_key=params[:query_key]
 	web_env=params[:web_env]
 	id=params[:id]
 	strand="1"
 	retmode="xml"
 
-	if id=="complete_genome"
-		fetch_url=base+"...whatever"
-	else
-		fetch_url=base+"/efetch.fcgi?db="+db+"&id="+id+"&query_key="+query_key+"&WebEnv="+web_env+"strand="+strand+"&retmode="+retmode
-	end
-
+	fetch_url=base+"/efetch.fcgi?db="+db+"&id="+id+"&query_key="+query_key+"&WebEnv="+web_env+"strand="+strand+"&retmode="+retmode
+	
 	#submit efetch request to ncbi
 	#--http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&id=14193388&rettype=fasta&retmode=xml--
 	fetch_page = agent.get(fetch_url)
 		
 	#parse output
 	#newseq=fetch_page.getTheSequence()
+	tmp_array=fetch_page.content.split("<GBSeq_locus>")
+	tmp_array.shift() #clear leading garbage
+	tmp_array.each_index do |i|
+		id_array[i]=id_array[i].split(<"</GBSeq_locus>")[0].to_s
+	end
+	locus_array=tmp_array
+
+	tmp_array=fetch_page.content.split("<GBSeq_sequence>")
+	tmp_array.shift() #clear leading garbage
+	tmp_array.each_index do |i|
+		id_array[i]=id_array[i].split(<"</GBSeq_sequence>")[0].to_s
+	end
+	sequence_array=tmp_array
 
 	#load sequence into task
-	newseq=#the sequence to be added
-	redirect_to "/newtask?getseq=#{newseq}"
+	@sequences=sequence_array
+	@locuslist=locus_array
+	#redirect_to "/newtask?getseq=#{newseq}"
 
 	#get locus values & sequence values from fetch result (http://muharem.wordpress.com/2007/09/04/scrape-the-web-with-ruby/)
   end
